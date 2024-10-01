@@ -366,7 +366,7 @@ header {
 }
 
 
-.header-middle-right-item:hover .header-middle-right-menu {
+.header-middle-right-menu.open {
     visibility: visible;
     /* transform: scale(1); */
     transform: translateY(0);

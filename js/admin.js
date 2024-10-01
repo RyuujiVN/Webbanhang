@@ -288,7 +288,7 @@ btnUpdateProductIn.addEventListener("click", (e) => {
 let btnAddProductIn = document.getElementById("add-product-button");
 btnAddProductIn.addEventListener("click", (e) => {
     e.preventDefault();
-    let imgProduct = getPathImage(document.querySelector(".upload-image-preview").src)
+    let imgProduct = getPathImage(document.querySelector(".upload-image-preview").src);
     let tenMon = document.getElementById("ten-mon").value;
     let price = document.getElementById("gia-moi").value;
     let moTa = document.getElementById("mo-ta").value;
