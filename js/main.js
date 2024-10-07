@@ -369,24 +369,38 @@ loginbtn.addEventListener('click', () => {
 })
 
 // Dang nhap & Dang ky
+const containsNumber = (string) => {
+    const regex = /\d/;
+    return regex.test(string);
+}
+
+const containsLetter = (string) => {
+    const regex = /\p{L}/u;
+    return regex.test(string);
+}
 
 // Chức năng đăng ký
 let signupButton = document.getElementById('signup-button');
 let loginButton = document.getElementById('login-button');
-signupButton.addEventListener('click', () => {
+signupButton.addEventListener('click', (event) => {
     event.preventDefault();
     let fullNameUser = document.getElementById('fullname').value;
     let phoneUser = document.getElementById('phone').value;
     let passwordUser = document.getElementById('password').value;
     let passwordConfirmation = document.getElementById('password_confirmation').value;
     let checkSignup = document.getElementById('checkbox-signup').checked;
+    let check = false;
     // Check validate
     if (fullNameUser.length == 0) {
         document.querySelector('.form-message-name').innerHTML = 'Vui lòng nhập họ vâ tên';
         document.getElementById('fullname').focus();
-    } else if (fullNameUser.length < 3) {
+    } else if (fullNameUser.length < 3 || fullNameUser.length > 40) {
         document.getElementById('fullname').value = '';
-        document.querySelector('.form-message-name').innerHTML = 'Vui lòng nhập họ và tên lớn hơn 3 kí tự';
+        document.querySelector('.form-message-name').innerHTML = 'Vui lòng nhập họ và tên lớn hơn 3 và bé hơn 40 kí tự';
+        check = true;
+    } else if (containsNumber(fullNameUser)) {
+        check = true;
+        document.querySelector('.form-message-name').innerHTML = 'Vui lòng nhập họ tên không có số';
     } else {
         document.querySelector('.form-message-name').innerHTML = '';
     }
@@ -394,7 +408,11 @@ signupButton.addEventListener('click', () => {
         document.querySelector('.form-message-phone').innerHTML = 'Vui lòng nhập vào số điện thoại';
     } else if (phoneUser.length != 10) {
         document.querySelector('.form-message-phone').innerHTML = 'Vui lòng nhập vào số điện thoại 10 số';
+        check = true;
         document.getElementById('phone').value = '';
+    } else if (containsLetter(phoneUser)) {
+        document.querySelector('.form-message-phone').innerHTML = 'Vui lòng nhập số điện thoại không có chữ';
+        check = true;
     } else {
         document.querySelector('.form-message-phone').innerHTML = '';
     }
@@ -420,7 +438,7 @@ signupButton.addEventListener('click', () => {
         document.querySelector('.form-message-checkbox').innerHTML = '';
     }
 
-    if (fullNameUser && phoneUser && passwordUser && passwordConfirmation && checkSignup) {
+    if (fullNameUser && phoneUser && passwordUser && passwordConfirmation && checkSignup && !check) {
         if (passwordConfirmation == passwordUser) {
             let user = {
                 fullname: fullNameUser,
@@ -456,17 +474,22 @@ signupButton.addEventListener('click', () => {
 )
 
 // Dang nhap
-loginButton.addEventListener('click', () => {
+loginButton.addEventListener('click', (event) => {
     event.preventDefault();
     let phonelog = document.getElementById('phone-login').value;
     let passlog = document.getElementById('password-login').value;
     let accounts = JSON.parse(localStorage.getItem('accounts'));
+    let check = false;
 
     if (phonelog.length == 0) {
         document.querySelector('.form-message.phonelog').innerHTML = 'Vui lòng nhập vào số điện thoại';
     } else if (phonelog.length != 10) {
         document.querySelector('.form-message.phonelog').innerHTML = 'Vui lòng nhập vào số điện thoại 10 số';
         document.getElementById('phone-login').value = '';
+        check = true;
+    } else if (containsLetter(phonelog)) {
+        document.querySelector('.form-message.phonelog').innerHTML = 'Vui lòng nhập vào số điện thoại không có chữ';
+        check = true;
     } else {
         document.querySelector('.form-message.phonelog').innerHTML = '';
     }
@@ -475,12 +498,13 @@ loginButton.addEventListener('click', () => {
         document.querySelector('.form-message-check-login').innerHTML = 'Vui lòng nhập mật khẩu';
     } else if (passlog.length < 6) {
         document.querySelector('.form-message-check-login').innerHTML = 'Vui lòng nhập mật khẩu lớn hơn 6 kí tự';
+        check = true;
         document.getElementById('passwordlogin').value = '';
     } else {
         document.querySelector('.form-message-check-login').innerHTML = '';
     }
 
-    if (phonelog && passlog) {
+    if (phonelog && passlog && !check) {
         let vitri = accounts.findIndex(item => item.phone == phonelog);
         if (vitri == -1) {
             toast({ title: 'Error', message: 'Tài khoản của bạn không tồn tại', type: 'error', duration: 3000 });
