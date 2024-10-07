@@ -844,6 +844,10 @@ updateAccount.addEventListener("click", (e) => {
             formMessageName.innerHTML = 'Vui lòng nhập họ và tên lớn hơn 3 kí tự và bé hơn 40 kí tự';
             check = true;
         }
+        else if (containsNumber(accounts[indexFlag].fullname)) {
+            formMessageName.innerHTML = 'Vui lòng nhập họ tên không có số';
+            check = true;
+        }
         else {
             formMessageName.innerHTML = '';
         }
@@ -854,6 +858,10 @@ updateAccount.addEventListener("click", (e) => {
         }
         else if (accounts[indexFlag].phone.length != 10) {
             formMessagePhone.innerHTML = 'Vui lòng nhập vào số điện thoại 10 số';
+            check = true;
+        }
+        else if (containsLetter(accounts[indexFlag].phone)) {
+            formMessagePhone.innerHTML = 'Vui lòng nhập số điện thoại không có chữ';
             check = true;
         }
         else {
@@ -901,6 +909,13 @@ addAccount.addEventListener("click", (e) => {
         formMessageName.innerHTML = 'Vui lòng nhập họ và tên lớn hơn 3 kí tự và bé hơn 40 kí tự';
         check = true;
     }
+    else if (containsNumber(fullNameUser)) {
+        formMessageName.innerHTML = 'Vui lòng nhập họ tên không có số';
+        check = true;
+    }
+    else {
+        formMessageName.innerHTML = '';
+    }
 
     if (phoneUser.length == 0) {
         formMessagePhone.innerHTML = 'Vui lòng nhập vào số điện thoại';
@@ -908,6 +923,13 @@ addAccount.addEventListener("click", (e) => {
         formMessagePhone.innerHTML = 'Vui lòng nhập vào số điện thoại 10 số';
         document.getElementById('phone').value = '';
         check = true;
+    }
+    else if (containsLetter(phoneUser)) {
+        formMessagePhone.innerHTML = 'Vui lòng nhập số điện thoại không có chữ';
+        check = true;
+    }
+    else {
+        formMessagePhone.innerHTML = '';
     }
 
     if (passwordUser.length == 0) {
@@ -946,7 +968,19 @@ addAccount.addEventListener("click", (e) => {
             toast({ title: 'Cảnh báo !', message: 'Tài khoản đã tồn tại !', type: 'error', duration: 3000 });
         }
     }
-})
+});
+
+const containsNumber = (string) => {
+    const regex = /\d/;
+    return regex.test(string);
+}
+
+const containsLetter = (string) => {
+    const regex = /\p{L}/u;
+    return regex.test(string);
+}
+
+
 
 document.getElementById("logout-acc").addEventListener('click', (e) => {
     e.preventDefault();
