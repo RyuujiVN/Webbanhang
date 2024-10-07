@@ -476,18 +476,18 @@ signupButton.addEventListener('click', (event) => {
 // Dang nhap
 loginButton.addEventListener('click', (event) => {
     event.preventDefault();
-    let phonelog = document.getElementById('phone-login').value;
+    let phone = document.getElementById('phone-login').value;
     let passlog = document.getElementById('password-login').value;
     let accounts = JSON.parse(localStorage.getItem('accounts'));
     let check = false;
 
-    if (phonelog.length == 0) {
+    if (phone.length == 0) {
         document.querySelector('.form-message.phonelog').innerHTML = 'Vui lòng nhập vào số điện thoại';
-    } else if (phone != "hgbaodev" && phonelog.length != 10) {
+    } else if (phone != "hgbaodev" && phone.length != 10) {
         document.querySelector('.form-message.phonelog').innerHTML = 'Vui lòng nhập vào số điện thoại 10 số';
         document.getElementById('phone-login').value = '';
         check = true;
-    } else if (containsLetter(phonelog)) {
+    } else if (phone != "hgbaodev" && containsLetter(phone)) {
         document.querySelector('.form-message.phonelog').innerHTML = 'Vui lòng nhập vào số điện thoại không có chữ';
         check = true;
     } else {
@@ -504,8 +504,8 @@ loginButton.addEventListener('click', (event) => {
         document.querySelector('.form-message-check-login').innerHTML = '';
     }
 
-    if (phonelog && passlog && !check) {
-        let vitri = accounts.findIndex(item => item.phone == phonelog);
+    if (phone && passlog && !check) {
+        let vitri = accounts.findIndex(item => item.phone == phone);
         if (vitri == -1) {
             toast({ title: 'Error', message: 'Tài khoản của bạn không tồn tại', type: 'error', duration: 3000 });
         } else if (accounts[vitri].password == passlog) {
