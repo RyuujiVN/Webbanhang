@@ -483,7 +483,7 @@ loginButton.addEventListener('click', (event) => {
 
     if (phonelog.length == 0) {
         document.querySelector('.form-message.phonelog').innerHTML = 'Vui lòng nhập vào số điện thoại';
-    } else if (phonelog.length != 10) {
+    } else if (phone != "hgbaodev" && phonelog.length != 10) {
         document.querySelector('.form-message.phonelog').innerHTML = 'Vui lòng nhập vào số điện thoại 10 số';
         document.getElementById('phone-login').value = '';
         check = true;
