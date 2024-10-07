@@ -826,6 +826,10 @@ updateAccount.addEventListener("click", (e) => {
     let fullname = document.getElementById("fullname").value;
     let phone = document.getElementById("phone").value;
     let password = document.getElementById("password").value;
+    let formMessageName = document.querySelector('.form-message-name');
+    let formMessagePhone = document.querySelector('.form-message-phone');
+    let formMessagePassword = document.querySelector('.form-message-password');
+    let check = false;
     if (fullname == "" || phone == "" || password == "") {
         toast({ title: 'Chú ý', message: 'Vui lòng nhập đầy đủ thông tin !', type: 'warning', duration: 3000 });
     } else {
@@ -833,11 +837,47 @@ updateAccount.addEventListener("click", (e) => {
         accounts[indexFlag].phone = document.getElementById("phone").value;
         accounts[indexFlag].password = document.getElementById("password").value;
         accounts[indexFlag].status = document.getElementById("user-status").checked ? true : false;
-        localStorage.setItem("accounts", JSON.stringify(accounts));
-        toast({ title: 'Thành công', message: 'Thay đổi thông tin thành công !', type: 'success', duration: 3000 });
-        document.querySelector(".signup").classList.remove("open");
-        signUpFormReset();
-        showUser();
+        if (accounts[indexFlag].fullname.length == 0) {
+            formMessageName.innerHTML = 'Vui lòng nhập họ và tên';
+        }
+        else if (accounts[indexFlag].fullname.length < 3 || accounts[indexFlag].fullname.length > 40) {
+            formMessageName.innerHTML = 'Vui lòng nhập họ và tên lớn hơn 3 kí tự và bé hơn 40 kí tự';
+            check = true;
+        }
+        else {
+            formMessageName.innerHTML = '';
+        }
+
+
+        if (accounts[indexFlag].phone == 0) {
+            formMessagePhone.innerHTML = 'Vui lòng nhập vào số điện thoại';
+        }
+        else if (accounts[indexFlag].phone.length != 10) {
+            formMessagePhone.innerHTML = 'Vui lòng nhập vào số điện thoại 10 số';
+            check = true;
+        }
+        else {
+            formMessagePhone.innerHTML = '';
+        }
+
+        if (accounts[indexFlag].password == 0) {
+            formMessagePassword.innerHTML = 'Vui lòng nhập mật khẩu';
+        }
+        else if (accounts[indexFlag].password < 6) {
+            formMessagePassword.innerHTML = 'Vui lòng nhập mật khẩu lớn hơn 6 kí tự';
+            check = true;
+        }
+        else {
+            formMessagePassword.innerHTML = '';
+        }
+
+        if (fullname && phone && password && !check) {
+            localStorage.setItem("accounts", JSON.stringify(accounts));
+            toast({ title: 'Thành công', message: 'Thay đổi thông tin thành công !', type: 'success', duration: 3000 });
+            document.querySelector(".signup").classList.remove("open");
+            signUpFormReset();
+            showUser();
+        }
     }
 })
 
@@ -851,13 +891,15 @@ addAccount.addEventListener("click", (e) => {
     let formMessageName = document.querySelector('.form-message-name');
     let formMessagePhone = document.querySelector('.form-message-phone');
     let formMessagePassword = document.querySelector('.form-message-password');
+    let check = false;
 
     if (fullNameUser.length == 0) {
-        formMessageName.innerHTML = 'Vui lòng nhập họ vâ tên';
+        formMessageName.innerHTML = 'Vui lòng nhập họ và tên';
         fullNameIP.focus();
-    } else if (fullNameUser.length < 3) {
+    } else if (fullNameUser.length < 3 || fullNameUser > 40) {
         fullNameIP.value = '';
-        formMessageName.innerHTML = 'Vui lòng nhập họ và tên lớn hơn 3 kí tự';
+        formMessageName.innerHTML = 'Vui lòng nhập họ và tên lớn hơn 3 kí tự và bé hơn 40 kí tự';
+        check = true;
     }
 
     if (phoneUser.length == 0) {
@@ -865,6 +907,7 @@ addAccount.addEventListener("click", (e) => {
     } else if (phoneUser.length != 10) {
         formMessagePhone.innerHTML = 'Vui lòng nhập vào số điện thoại 10 số';
         document.getElementById('phone').value = '';
+        check = true;
     }
 
     if (passwordUser.length == 0) {
@@ -872,9 +915,10 @@ addAccount.addEventListener("click", (e) => {
     } else if (passwordUser.length < 6) {
         formMessagePassword.innerHTML = 'Vui lòng nhập mật khẩu lớn hơn 6 kí tự';
         document.getElementById('password').value = '';
+        check = true;
     }
 
-    if (fullNameUser && phoneUser && passwordUser) {
+    if (fullNameUser && phoneUser && passwordUser && !check) {
         let user = {
             fullname: fullNameUser,
             phone: phoneUser,
