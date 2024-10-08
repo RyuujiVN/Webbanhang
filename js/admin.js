@@ -288,11 +288,12 @@ btnUpdateProductIn.addEventListener("click", (e) => {
 let btnAddProductIn = document.getElementById("add-product-button");
 btnAddProductIn.addEventListener("click", (e) => {
     e.preventDefault();
-    let imgProduct = getPathImage(document.querySelector(".upload-image-preview").src);
+    let imgProduct = document.querySelector(".upload-image-preview");
     let tenMon = document.getElementById("ten-mon").value;
     let price = document.getElementById("gia-moi").value;
     let moTa = document.getElementById("mo-ta").value;
     let categoryText = document.getElementById("chon-mon").value;
+    console.log(imgProduct);
     if (tenMon == "" || price == "" || moTa == "") {
         toast({ title: "Chú ý", message: "Vui lòng nhập đầy đủ thông tin món!", type: "warning", duration: 3000, });
     } else {
@@ -356,6 +357,7 @@ for (let i = 0; i < closePopup.length; i++) {
 // On change Image
 function uploadImage(el) {
     let path = "./assets/img/products/" + el.value.split("\\")[2];
+    console.log(path);
     document.querySelector(".upload-image-preview").setAttribute("src", path);
 }
 
@@ -572,7 +574,6 @@ function createObj() {
     });
     return result;
 }
-
 // Filter 
 function thongKe(mode) {
     let categoryTk = document.getElementById("the-loai-tk").value;

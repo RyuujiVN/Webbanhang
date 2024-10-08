@@ -459,15 +459,15 @@ signupButton.addEventListener('click', (event) => {
                 accounts.push(user);
                 localStorage.setItem('accounts', JSON.stringify(accounts));
                 localStorage.setItem('currentuser', JSON.stringify(user));
-                toast({ title: 'Thành công', message: 'Tạo thành công tài khoản !', type: 'success', duration: 3000 });
+                toast({ title: 'Thành công', message: 'Tạo tài khoản thành công!', type: 'success', duration: 3000 });
                 closeModal();
                 kiemtradangnhap();
                 updateAmount();
             } else {
-                toast({ title: 'Thất bại', message: 'Tài khoản đã tồn tại !', type: 'error', duration: 3000 });
+                toast({ title: 'Thất bại', message: 'Tài khoản đã tồn tại!', type: 'error', duration: 3000 });
             }
         } else {
-            toast({ title: 'Thất bại', message: 'Sai mật khẩu !', type: 'error', duration: 3000 });
+            toast({ title: 'Thất bại', message: 'Sai mật khẩu!', type: 'error', duration: 3000 });
         }
     }
 }
@@ -586,6 +586,11 @@ function emailIsValid(email) {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
 }
 
+function addressIsValid(address) {
+    const addressRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{7,}$/;
+    return addressRegex.test(address);
+}
+
 function userInfo() {
     let user = JSON.parse(localStorage.getItem('currentuser'));
     document.getElementById('infoname').value = user.fullname;
@@ -600,6 +605,10 @@ function userInfo() {
     }
 }
 
+function isLongerSix(str) {
+    return str.length > 6;
+}
+
 // Thay doi thong tin
 function changeInformation() {
     let accounts = JSON.parse(localStorage.getItem('accounts'));
@@ -607,30 +616,56 @@ function changeInformation() {
     let infoname = document.getElementById('infoname');
     let infoemail = document.getElementById('infoemail');
     let infoaddress = document.getElementById('infoaddress');
+    let check = false;
+
+    if (infoname.value.length == 0) {
+        document.querySelector('.inforname-error').innerHTML = 'Vui lòng nhập tên';
+        check = true;
+    }
+    else if (infoname.value.length < 3 || infoname.value.length > 40) {
+        document.querySelector('.inforname-error').innerHTML = 'Vui lòng nhập tên lớn hơn 3 và bé hơn 40 ký tự';
+        check = true;
+    }
+    else if (containsNumber(infoname.value)) {
+        document.querySelector('.inforname-error').innerHTML = 'Vui lòng nhập họ tên không có số';
+        check = true;
+    }
 
     user.fullname = infoname.value;
     if (infoemail.value.length > 0) {
         if (!emailIsValid(infoemail.value)) {
-            document.querySelector('.inforemail-error').innerHTML = 'Vui lòng nhập lại email!';
-            infoemail.value = '';
+            document.querySelector('.inforemail-error').innerHTML = 'Vui lòng nhập email đúng định dạng!';
+            check = true;
         } else {
             user.email = infoemail.value;
         }
     }
 
     if (infoaddress.value.length > 0) {
-        user.address = infoaddress.value;
+        if (!containsLetter(infoaddress.value) || !containsNumber(infoaddress.value) || !isLongerSix(infoaddress.value)) {
+            document.querySelector('.inforaddress-error').innerHTML = 'Vui lòng nhập address đúng định dạng(lớn hơn 6 ký tự, có chữ số và chữ cái)!';
+            check = true;
+        }
+        else {
+            user.address = infoaddress.value;
+        }
     }
 
     let vitri = accounts.findIndex(item => item.phone == user.phone)
 
-    accounts[vitri].fullname = user.fullname;
-    accounts[vitri].email = user.email;
-    accounts[vitri].address = user.address;
-    localStorage.setItem('currentuser', JSON.stringify(user));
-    localStorage.setItem('accounts', JSON.stringify(accounts));
-    kiemtradangnhap();
-    toast({ title: 'Success', message: 'Cập nhật thông tin thành công !', type: 'success', duration: 3000 });
+    if (!check) {
+        console.log(check);
+        accounts[vitri].fullname = user.fullname;
+        accounts[vitri].email = user.email;
+        accounts[vitri].address = user.address;
+        localStorage.setItem('currentuser', JSON.stringify(user));
+        localStorage.setItem('accounts', JSON.stringify(accounts));
+        kiemtradangnhap();
+        toast({ title: 'Success', message: 'Cập nhật thông tin thành công !', type: 'success', duration: 3000 });
+        // setTimeout(() => {
+        //     window.location.href = "/Webbanhang";
+        // }, 3000);
+    }
 }
 
 // Đổi mật khẩu 
