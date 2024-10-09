@@ -392,7 +392,7 @@ signupButton.addEventListener('click', (event) => {
     let check = false;
     // Check validate
     if (fullNameUser.length == 0) {
-        document.querySelector('.form-message-name').innerHTML = 'Vui lòng nhập họ vâ tên';
+        document.querySelector('.form-message-name').innerHTML = 'Vui lòng nhập họ và tên';
         document.getElementById('fullname').focus();
     } else if (fullNameUser.length < 3 || fullNameUser.length > 40) {
         document.getElementById('fullname').value = '';
@@ -678,12 +678,15 @@ function changePassword() {
     if (passwordCur.value.length == 0) {
         document.querySelector('.password-cur-info-error').innerHTML = 'Vui lòng nhập mật khẩu hiện tại';
         check = false;
+    } else if(passwordCur.value.length < 6) {
+        document.querySelector('.password-cur-info-error').innerHTML = 'Vui lòng nhập mật khẩu lớn hơn hoặc bằng 6 kí tự';
+        check = false;
     } else {
         document.querySelector('.password-cur-info-error').innerHTML = '';
     }
 
     if (passwordAfter.value.length == 0) {
-        document.querySelector('.password-after-info-error').innerHTML = 'Vui lòn nhập mật khẩu mới';
+        document.querySelector('.password-after-info-error').innerHTML = 'Vui lòng nhập mật khẩu mới';
         check = false;
     } else {
         document.querySelector('.password-after-info-error').innerHTML = '';
