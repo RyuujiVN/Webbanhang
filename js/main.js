@@ -688,6 +688,9 @@ function changePassword() {
     if (passwordAfter.value.length == 0) {
         document.querySelector('.password-after-info-error').innerHTML = 'Vui lòng nhập mật khẩu mới';
         check = false;
+    } else if (passwordAfter.value.length < 6) {
+        document.querySelector('.password-after-info-error').innerHTML = 'Vui lòng nhập mật khẩu mới có số  kí tự lớn hơn hoặc bằng 6';
+        check = false;
     } else {
         document.querySelector('.password-after-info-error').innerHTML = '';
     }
