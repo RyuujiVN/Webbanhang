@@ -396,7 +396,7 @@ signupButton.addEventListener('click', (event) => {
         document.getElementById('fullname').focus();
     } else if (fullNameUser.length < 3 || fullNameUser.length > 40) {
         document.getElementById('fullname').value = '';
-        document.querySelector('.form-message-name').innerHTML = 'Vui lòng nhập họ và tên lớn hơn 3 và bé hơn 40 kí tự';
+        document.querySelector('.form-message-name').innerHTML = 'Vui lòng nhập họ và tên lớn hơn hoặc bằng 3 và bé hơn hoặc bằng 40 kí tự';
         check = true;
     } else if (containsNumber(fullNameUser)) {
         check = true;
@@ -419,7 +419,7 @@ signupButton.addEventListener('click', (event) => {
     if (passwordUser.length == 0) {
         document.querySelector('.form-message-password').innerHTML = 'Vui lòng nhập mật khẩu';
     } else if (passwordUser.length < 6) {
-        document.querySelector('.form-message-password').innerHTML = 'Vui lòng nhập mật khẩu lớn hơn 6 kí tự';
+        document.querySelector('.form-message-password').innerHTML = 'Vui lòng nhập mật khẩu lớn hơn hoặc bằng 6 kí tự';
         document.getElementById('password').value = '';
     } else {
         document.querySelector('.form-message-password').innerHTML = '';
@@ -623,7 +623,7 @@ function changeInformation() {
         check = true;
     }
     else if (infoname.value.length < 3 || infoname.value.length > 40) {
-        document.querySelector('.inforname-error').innerHTML = 'Vui lòng nhập tên lớn hơn 3 và bé hơn 40 ký tự';
+        document.querySelector('.inforname-error').innerHTML = 'Vui lòng nhập họ và tên lớn hơn hoặc bằng 3 và bé hơn hoặc bằng 40 kí tự';
         check = true;
     }
     else if (containsNumber(infoname.value)) {
@@ -678,7 +678,7 @@ function changePassword() {
     if (passwordCur.value.length == 0) {
         document.querySelector('.password-cur-info-error').innerHTML = 'Vui lòng nhập mật khẩu hiện tại';
         check = false;
-    } else if(passwordCur.value.length < 6) {
+    } else if (passwordCur.value.length < 6) {
         document.querySelector('.password-cur-info-error').innerHTML = 'Vui lòng nhập mật khẩu lớn hơn hoặc bằng 6 kí tự';
         check = false;
     } else {
