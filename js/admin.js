@@ -955,19 +955,12 @@ addAccount.addEventListener("click", (e) => {
         }
         console.log(user);
         let accounts = localStorage.getItem('accounts') ? JSON.parse(localStorage.getItem('accounts')) : [];
-        let checkloop = accounts.some(account => {
-            return account.phone == user.phone;
-        })
-        if (!checkloop) {
-            accounts.push(user);
-            localStorage.setItem('accounts', JSON.stringify(accounts));
-            toast({ title: 'Thành công', message: 'Tạo thành công tài khoản !', type: 'success', duration: 3000 });
-            document.querySelector(".signup").classList.remove("open");
-            showUser();
-            signUpFormReset();
-        } else {
-            toast({ title: 'Cảnh báo !', message: 'Tài khoản đã tồn tại !', type: 'error', duration: 3000 });
-        }
+        accounts.push(user);
+        localStorage.setItem('accounts', JSON.stringify(accounts));
+        toast({ title: 'Thành công', message: 'Tạo thành công tài khoản !', type: 'success', duration: 3000 });
+        document.querySelector(".signup").classList.remove("open");
+        showUser();
+        signUpFormReset();
     }
 });
 
